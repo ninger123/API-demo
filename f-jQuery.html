@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .blue{
+            color:blue;
+        }
+    </style>
+</head>
+<body>
+<div id="item">111</div>
+<script>
+    window.jQuery=function(nodeOrSelector) {
+        let nodes = {};
+        if (typeof  nodeOrSelector === 'string') {
+            let temp = document.querySelectorAll(nodeOrSelector);
+            console.log(temp);
+            for (let i = 0; i < temp.length; i++) {
+                nodes[i] = temp[i];
+            }
+            nodes.length = temp.length;
+            console.log(nodes);
+        }
+        else if (nodeOrSelector instanceof Node) {
+            node = {
+                0: nodeOrSelector,
+                length: 1
+            }
+        }
+
+        nodes.addClass = function (classes) {
+            classes.forEach((value) => {
+                for (let i = 0;i < nodes.length;i++)
+            {
+                nodes[i].classList.add(value);
+            }
+        }
+        )
+    }
+
+    return nodes;
+    }
+    var div=jQuery('div');
+    div.addClass(['blue']);
+</script>
+</body>
+</html>
