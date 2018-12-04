@@ -5,36 +5,38 @@
     <title></title>
 </head>
 <body>
-
+<div id="item"></div>
 </body>
 <script>
-    //找node的所有兄弟姐妹
-    function getSiblings(node){
-        var allChildren = node.parentNode.children;
+    function getSiblings(none){
+        var allChildren=node.parentNode.children
         var array={
             length:0
         }
         for(let i=0;i<allChildren.length;i++){
-            if(allChildren[i]!== node){
-                array[array.length]= allChildren[i];
+            if(allChildren[i]!==node){
+                array[array.length]=allChildren[i];
                 array.length+=1;
             }
         }
         return array;
     }
-    //添加/删除多个类名
+
+
     function addClass(node,classes){
         for(let key in classes){
             var value=classes[key];
-            if(value){
-                node.classList.add(key);
-            }
-            else{
-                node.classList.remove(key);
-            }
+            var methodName = value ? 'add':'remove';
+            node.classList[methodName](key);
         }
     }
-    //调用示例
-    addClass(item,{a:true,b:false,c:true})
+
+    //命名空间
+    window.ffdom={}
+    ffdom.getSibling=getSiblings;
+    ffdom.addClass=addClass;
+    ffdom.getSibling(item);
+    ffdom.addClass(item,{a:true,b:false,c:true});
+
 </script>
 </html>
