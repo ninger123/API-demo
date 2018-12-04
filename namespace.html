@@ -5,9 +5,32 @@
     <title></title>
 </head>
 <body>
-
+<div id="item"></div>
 </body>
 <script>
+    Node.prototype.getSiblings=function(){
+        var allChildren=this.parentNode.children
+        var array={
+            length:0
+        }
+        for(let i=0;i<allChildren.length;i++){
+            if(allChildren[i]!==this){
+                array[array.length]=allChildren[i];
+                array.length+=1;
+            }
+        }
+        return array;
+    }
 
+    Node.prototype.addClass=function(classes){
+        for(let key in classes){
+            var value=classes[key];
+            var methodName = value ? 'add':'remove';
+            node.classList[methodName](key);
+        }
+    }
+
+    item.getSibling();
+    item.addClass(item,{a:true,b:false,c:true});
 </script>
 </html>
