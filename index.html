@@ -22,5 +22,19 @@
         }
         return array;
     }
+    //添加/删除多个类名
+    function addClass(node,classes){
+        for(let key in classes){
+            var value=classes[key];
+            if(value){
+                node.classList.add(key);
+            }
+            else{
+                node.classList.remove(key);
+            }
+        }
+    }
+    //调用示例
+    addClass(item,{a:true,b:false,c:true})
 </script>
 </html>
