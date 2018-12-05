@@ -16,6 +16,14 @@
         .window{
             width: 300px;
             overflow: hidden;
+            margin-bottom: 5px;
+        }
+        #p1,#p2,#p3{
+            border: 1px solid black;
+            margin-right: 10px;
+        }
+        #p1:hover,#p2:hover,#p3:hover{
+            cursor: pointer;
         }
     </style>
 </head>
@@ -31,6 +39,8 @@
 <span id="p2">第二张</span>
 <span id="p3">第三张</span>
 <script>
+    //demo1
+    //只能点击按钮来换图片
     $(p1).on('click',function(){
         $(images).css({
             transform:'translateX(0)'
