@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title></title>
     <style>
-        .blue{
-            color:blue;
+        .red{
+            color:red;
         }
     </style>
 </head>
@@ -24,26 +24,31 @@
             console.log(nodes);
         }
         else if (nodeOrSelector instanceof Node) {
-            node = {
+            nodes = {
                 0: nodeOrSelector,
                 length: 1
             }
         }
 
-        nodes.addClass = function (classes) {
-            classes.forEach((value) => {
-                for (let i = 0;i < nodes.length;i++)
-            {
+        nodes.addClass=function(value){
+            for(let i=0;i<nodes.length;i++){
                 nodes[i].classList.add(value);
             }
         }
-        )
+
+        nodes.setText= function (value) {
+            for(let i=0;i<nodes.length;i++){
+                nodes[i].textContent=value;
+            }
+        }
+        return nodes;
     }
 
-    return nodes;
-    }
-    var div=jQuery('div');
-    div.addClass(['blue']);
+    window.$ = jQuery;
+    var $div = $('div');
+    $div.addClass('red');
+    $div.setText('hi');
+
 </script>
 </body>
 </html>
