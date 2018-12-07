@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,h1,h2,h3,p,quote,small,form,input,ul,li,ol,label{
+            /* Page reset */
+            margin:0px;
+            padding:0px;
+        }
+
+        body{
+            /* Setting default text color, background and a font stack */
+            color:#444444;
+            font-size:13px;
+            background: #f2f2f2;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        /* Gallery styles */
+
+        #gallery{
+            /* CSS3 Box Shadow */
+            -moz-box-shadow:0 0 3px #AAAAAA;
+            -webkit-box-shadow:0 0 3px #AAAAAA;
+            box-shadow:0 0 3px #AAAAAA;
+
+            /* CSS3 Rounded Corners */
+
+            -moz-border-radius-bottomleft:4px;
+            -webkit-border-bottom-left-radius:4px;
+            border-bottom-left-radius:4px;
+
+            -moz-border-radius-bottomright:4px;
+            -webkit-border-bottom-right-radius:4px;
+            border-bottom-right-radius:4px;
+
+            border:1px solid white;
+
+            background:url(img/panel.jpg) repeat-x bottom center #ffffff;
+
+            /* The width of the gallery */
+            width:920px;
+            overflow:hidden;
+        }
+
+        #slides{
+            /* This is the slide area */
+            height:400px;
+
+            /* jQuery changes the width later on to the sum of the widths of all the slides. */
+            width:920px;
+            overflow:hidden;
+        }
+
+        .slide{
+            float:left;
+        }
+
+        #menu{
+            /* This is the container for the thumbnails */
+            height:45px;
+        }
+
+        ul{
+            margin:0px;
+            padding:0px;
+        }
+
+        li{
+            /* Every thumbnail is a li element */
+            width:60px;
+            display:inline-block;
+            list-style:none;
+            height:45px;
+            overflow:hidden;
+        }
+
+        li.inact:hover{
+            /* The inactive state, highlighted on mouse over */
+            background:url(img/pic_bg.png) repeat;
+        }
+
+        li.act,li.act:hover{
+            /* The active state of the thumb */
+            background:url(img/active_bg.png) no-repeat;
+        }
+
+        li.act a{
+            cursor:default;
+        }
+
+        .fbar{
+            /* The left-most vertical bar, next to the first thumbnail */
+            width:2px;
+            background:url(img/divider.png) no-repeat right;
+        }
+
+        li a{
+            display:block;
+            background:url(img/divider.png) no-repeat right;
+            height:35px;
+            padding-top:10px;
+        }
+
+        a img{
+            border:none;
+        }
+
+
+        /* The styles below are only necessary for the demo page */
+
+        h1{
+            font-family:"Myriad Pro",Arial,Helvetica,sans-serif;
+            font-size:36px;
+            font-weight:normal;
+            margin-bottom:15px;
+        }
+
+        h2{
+            font-family:"Myriad Pro",Arial,Helvetica,sans-serif;
+            font-size:12px;
+            font-weight:normal;
+            position:absolute;
+            right:0;
+            text-transform:uppercase;
+            top:15px;
+        }
+
+        #main{
+            /* The main container */
+            margin:15px auto;
+            text-align:center;
+            width:920px;
+            position:relative;
+        }
+
+        a, a:visited {
+            color:#0196e3;
+            text-decoration:none;
+            outline:none;
+        }
+
+        a:hover{
+            text-decoration:underline;
+        }
+
+        p{
+            padding:10px;
+            text-align:center;
+        }
+
+    </style>
+</head>
+<body>
+<div id="main">
+
+    <div id="gallery">
+
+        <div id="slides">
+
+            <div class="slide"><img src="img/sample_slides/macbook.jpg" width="920" height="400" /></div>
+            <div class="slide"><img src="img/sample_slides/iphone.jpg" width="920" height="400" /></div>
+            <div class="slide"><img src="img/sample_slides/imac.jpg" width="920" height="400" /></div>
+
+        </div>
+
+        <div id="menu">
+
+            <ul>
+                <li class="fbar">&nbsp;</li>
+                <li class="menuItem">
+                    <a href=""><img src="img/sample_slides/thumb_macbook.png" /></a>
+                </li>
+                <li class="menuItem">
+                    <a href=""><img src="img/sample_slides/thumb_iphone.png" /></a>
+                </li>
+                <li class="menuItem">
+                    <a href=""><img src="img/sample_slides/thumb_imac.png" /></a>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+    $(document).ready(function(){
+        /* This code is executed after the DOM has been completely loaded */
+
+        var totWidth=0;
+        var positions = new Array();
+
+        $('#slides .slide').each(function(i){
+
+            /* Traverse through all the slides and store their accumulative widths in totWidth */
+
+            positions[i]= totWidth;
+            totWidth += $(this).width();
+
+            /* The positions array contains each slide's commulutative offset from the left part of the container */
+
+            if(!$(this).width())
+            {
+                alert("Please, fill in width & height for all your images!");
+                return false;
+            }
+
+        });
+
+        $('#slides').width(totWidth);
+
+        /* Change the cotnainer div's width to the exact width of all the slides combined */
+
+        $('#menu ul li a').click(function(e,keepScroll){
+
+            /* On a thumbnail click */
+
+            $('li.menuItem').removeClass('act').addClass('inact');
+            $(this).parent().addClass('act');
+
+            var pos = $(this).parent().prevAll('.menuItem').length;
+
+            $('#slides').stop().animate({marginLeft:-positions[pos]+'px'},450);
+            /* Start the sliding animation */
+
+            e.preventDefault();
+            /* Prevent the default action of the link */
+
+
+            // Stopping the auto-advance if an icon has been clicked:
+            if(!keepScroll) clearInterval(itvl);
+        });
+
+        $('#menu ul li.menuItem:first').addClass('act').siblings().addClass('inact');
+        /* On page load, mark the first thumbnail as active */
+
+
+
+        /*****
+         *
+         *	Enabling auto-advance.
+         *
+         ****/
+
+        var current=1;
+        function autoAdvance()
+        {
+            if(current==-1) return false;
+
+            $('#menu ul li a').eq(current%$('#menu ul li a').length).trigger('click',[true]);	// [true] will be passed as the keepScroll parameter of the click function on line 28
+            current++;
+        }
+
+        // The number of seconds that the slider will auto-advance in:
+
+        var changeEvery = 10;
+
+        var itvl = setInterval(function(){autoAdvance()},changeEvery*1000);
+
+        /* End of customizations */
+    });
+</script>
+</body>
+</html>
