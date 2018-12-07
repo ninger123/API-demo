@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .wrapper{
+            position: relative;
+            display: inline-block;
+        }
+        .popover{
+            border: 1px solid red;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            white-space: nowrap;
+            padding: 10px;
+            margin-left: 10px;
+            background: white;
+            display: none;
+        }
+        .popover::before{
+            position: absolute;
+            right: 100%;
+            top: 5px;
+            border: 10px solid transparent;
+            border-right-color: red;
+            content: '';
+        }
+        .popover::after{
+            position: absolute;
+            right: 100%;
+            top: 5px;
+            border: 10px solid transparent;
+            border-right-color: white;
+            content: '';
+            margin-right: -1px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <button id="clickMe">点我</button>
+    <div id="popover" class="popover">
+        <input type="checkbox">浮层
+    </div>
+</div>
+<script>
+$(clickMe).on('click', function () {
+    if($(popover).css("display")==="none"){
+        $(popover).show()
+        setTimeout(function (){
+            $(document).one('click',function(){
+                $(popover).hide()
+            })
+        },0)
+    }
+    else if($(popover).css("display")==="block"){
+        $(popover).hide();
+    }
+})
+    $(wrapper).on('click',function(e){
+        e.stopPropagation();
+    })
+
+</script>
+</body>
+</html>
