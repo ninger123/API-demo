@@ -7,7 +7,7 @@
 function Human(options){
     this.name =options.name;
     this.city =options.city;
-} // 构造函数结束
+}
 
 Human.prototype.species ="human";
 Human.prototype.walk = function(){};
